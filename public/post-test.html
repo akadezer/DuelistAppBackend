@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <title>POST Middleware Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    form, .card { border: 1px solid #ccc; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+    label { display: block; margin: 0.5rem 0; }
+    input, textarea, button { font-size: 1rem; }
+    pre { background: #f6f8fa; padding: 1rem; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>POST Test</h1>
+
+  <div class="card">
+    <h2>Formular (Content-Type: application/x-www-form-urlencoded)</h2>
+    <form action="http://localhost:3000/" method="POST">
+      <label>
+        Feld 1:
+        <input type="text" name="field1" value="Hallo Welt" />
+      </label>
+      <label>
+        Feld 2:
+        <input type="text" name="field2" value="Test" />
+      </label>
+      <button type="submit">Senden</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Fetch (Content-Type: application/json)</h2>
+    <label>
+      JSON Body:
+      <textarea id="jsonBody" rows="6">{ "msg": "Hallo vom Fetch", "value": 42 }</textarea>
+    </label>
+    <button id="sendJson">POST senden</button>
+    <h3>Antwort</h3>
+    <pre id="responseOut"></pre>
+  </div>
+
+  <script>
+    document.getElementById('sendJson').addEventListener('click', async () => {
+      const bodyText = document.getElementById('jsonBody').value;
+      let parsed;
+      try { parsed = JSON.parse(bodyText); }
+      catch (e) {
+        document.getElementById('responseOut').textContent = 'Ungültiges JSON: ' + e.message;
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:3000/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(parsed),
+        });
+        const text = await res.text(); // dein Server sendet aktuell Text
+        document.getElementById('responseOut').textContent =
+          'Status: ' + res.status + '\n\n' + text;
+      } catch (err) {
+        document.getElementById('responseOut').textContent = 'Fehler: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

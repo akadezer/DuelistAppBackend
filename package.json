@@ -1,0 +1,16 @@
+{
+  "name": "duelistapp",
+  "version": "1.0.0",
+  "description": "This is the Duelist-Application for the Duel disk Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+  },
+  "author": "akadezer",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.0.1"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Test Crud Operations",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
