@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: {{BaseUrl}}
-  body: none
+  url: {{BaseUrl}}user?id=1
+  body: json
   auth: none
+}
+
+params:query {
+  id: 1
 }
