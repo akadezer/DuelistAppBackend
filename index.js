@@ -1,23 +1,16 @@
 const express = require('express');
-const mongoose = require('./database').mongoose;
+const mongoose = require('./database/database').mongoose;
 const app = express();
 const port = 3000;
 const userModel = require('./models/user.model').userModel;
+const userRoutes = require('./routes/user.routes').userRoutes;
 
-app.get('/', (req, res) => {
-    const User = new userModel({
-        DuelantenId: '12345',
-        username: 'testuser',
-        email: 'siuu',
-        password: 'password123'
-    });
-    User.save().catch(err => console.log(err));
-    res.send('Hello World!');
-});
+app.use(userRoutes);
 
-app.post('/', (req, res) => {
+app.post('/', (req, res, next) => {
     res.send('POST request to the homepage');
     console.log('Received a POST request');
+    next();
 });
 
 app.listen(port, () => {
