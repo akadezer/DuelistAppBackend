@@ -5,6 +5,7 @@ const port = 3000;
 const userModel = require('./models/user.model').userModel;
 const userRoutes = require('./routes/user.routes').userRoutes;
 
+app.use(express.json());
 app.use(userRoutes);
 
 app.post('/', (req, res, next) => {
