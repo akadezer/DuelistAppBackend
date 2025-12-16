@@ -24,3 +24,12 @@ exports.createUser = (req, res,next) => {
         })
         .catch(err => {console.log(err)});
     }
+
+exports.deleteUser = (req, res,next) => {
+    const userId = req.body.id;
+    userModel.deleteOne({'DuelantenID': userId})
+    .then(result => {
+        res.status(200).send('User deleted successfully');
+    })
+    .catch(err => {console.log(err)});
+};
