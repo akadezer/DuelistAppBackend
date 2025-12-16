@@ -33,3 +33,13 @@ exports.deleteUser = (req, res,next) => {
     })
     .catch(err => {console.log(err)});
 };
+
+exports.updateUser = (req, res,next) => {
+    const userId = req.body.id;
+    const updateData = req.body.username;
+    userModel.updateOne({'DuelantenID': userId}, {username: updateData})
+    .then(result => {
+        res.status(200).send('User updated successfully');
+    })
+    .catch(err => {console.log(err)});
+};
