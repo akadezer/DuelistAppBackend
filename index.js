@@ -6,6 +6,7 @@ const userModel = require('./models/user.model').userModel;
 const userRoutes = require('./routes/user.routes').userRoutes;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 app.use(userRoutes);
 
 app.post('/', (req, res, next) => {
