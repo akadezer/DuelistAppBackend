@@ -10,19 +10,31 @@ exports.getUser = (req, res,next) => {
 };
 
 exports.createUser = (req, res,next) => {
-    userModel.create({
-        DuelantenId: req.body.DuelantenId,
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        DeckIds: [],
-        SammlungId: null,
-        FriendlistId: null})
-        .then(result => {
+    userModel.find({'DuelantenId': req.body.DuelantenId})
+    .then(user => {
+        console.log(user);
+        if(user.length === 0){
+        return userModel.create({
+            DuelantenId: req.body.DuelantenId,
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password,
+            DeckIds: [],
+            SammlungId: null,
+            FriendlistId: null});
+        }else{
+            console.log('User already exists');
+            res.status(409).send('User already exists');
+        }
+
+    })
+    .then((result) => {
+        if(result){
             res.status(200);
             res.send('User created successfully');
+        }
         })
-        .catch(err => {console.log(err)});
+    .catch(err => {console.log(err)});
     }
 
 exports.deleteUser = (req, res,next) => {
