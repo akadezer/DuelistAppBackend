@@ -11,10 +11,10 @@ exports.getUser = (req, res,next) => {
 
 exports.createUser = (req, res,next) => {
     userModel.create({
-        DuelantenId: "1",
-        username: "Yugi Muto",
-        email: "yugi@example.com",
-        password: "exodia",
+        DuelantenId: req.body.DuelantenId,
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
         DeckIds: [],
         SammlungId: null,
         FriendlistId: null})
