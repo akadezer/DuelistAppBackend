@@ -1,0 +1,25 @@
+meta {
+  name: TestPost
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BaseUrl}}user
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "DuelantenId": "1",
+    "username": "Yugi Muto",
+    "email": "Yugi@Muto.com",
+    "password": "DarkMagician"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
