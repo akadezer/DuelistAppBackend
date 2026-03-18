@@ -4,16 +4,21 @@ const app = express();
 const port = 3000;
 const userModel = require('./models/user.model').userModel;
 const userRoutes = require('./routes/user.routes').userRoutes;
+const loginRoutes = require('./routes/login.routes').loginRoutes;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
-app.use(userRoutes);
 
-app.post('/', (req, res, next) => {
-    res.send('POST request to the homepage');
-    console.log('Received a POST request');
+app.use((req, res, next) => {
+    console.log('Received request:', req.method, req.url);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
 });
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+app.use(userRoutes);
+app.use(loginRoutes);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
