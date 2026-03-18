@@ -1,0 +1,23 @@
+meta {
+  name: LoginUser
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BaseUrl}}login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username":"Yugi Muto", 
+    "password":"DarkMagician"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
