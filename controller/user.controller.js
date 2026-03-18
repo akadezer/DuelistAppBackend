@@ -26,10 +26,11 @@ exports.createUser = (req, res,next) => {
             console.log('User already exists');
             res.status(409).send('User already exists');
         }
-
+        
     })
     .then((result) => {
         if(result){
+
             res.status(200);
             res.send('User created successfully');
         }
@@ -39,19 +40,35 @@ exports.createUser = (req, res,next) => {
 
 exports.deleteUser = (req, res,next) => {
     const userId = req.body.id;
-    userModel.deleteOne({'DuelantenID': userId})
-    .then(result => {
-        res.status(200).send('User deleted successfully');
+    userModel.find({'DuelantenId': userId})
+    .then(user => {
+        if(user.length === 1){
+        return userModel.deleteOne({'DuelantenId': userId})
+            .then(result => {
+                res.status(200).send('User deleted successfully');
+            })
+            .catch(err => {console.log(err)});
+        }else{
+            res.status(500).send('User not found');
+        }
     })
-    .catch(err => {console.log(err)});
+    .catch(err => {res.status(500).send('Error finding user')});
 };
 
 exports.updateUser = (req, res,next) => {
     const userId = req.body.id;
     const updateData = req.body.username;
-    userModel.updateOne({'DuelantenID': userId}, {username: updateData})
-    .then(result => {
-        res.status(200).send('User updated successfully');
+    userModel.find({'DuelantenId': userId})
+    .then(user => {
+        if(user.length === 1){
+            return userModel.updateOne({'DuelantenId': userId}, {username: updateData})
+            .then(result => {
+                res.status(200).send('User updated successfully');
+            })
+            .catch(err => {console.log(err)});
+        }else{
+            res.status(500).send('User not found');
+        }
     })
-    .catch(err => {console.log(err)});
+    .catch(err => {res.status(500).send('Error finding user')});
 };
