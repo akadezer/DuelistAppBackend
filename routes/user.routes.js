@@ -7,7 +7,7 @@ const updateUser = require('../controller/user.controller').updateUser;
 
 
 userRoutes.get('/user',getUser);
-userRoutes.post('/user',createUser);
+userRoutes.post('/createUser',createUser);
 userRoutes.delete('/user',deleteUser);
 userRoutes.put('/user',updateUser);
 
