@@ -10,33 +10,37 @@ exports.getUser = (req, res,next) => {
 };
 
 exports.createUser = (req, res,next) => {
-    userModel.find({'DuelantenId': req.body.DuelantenId})
-    .then(user => {
-        console.log(user);
-        if(user.length === 0){
-        return userModel.create({
-            DuelantenId: req.body.DuelantenId,
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password,
-            DeckIds: [],
-            SammlungId: null,
-            FriendlistId: null});
-        }else{
-            console.log('User already exists');
-            res.status(409).send('User already exists');
-        }
-        
-    })
-    .then((result) => {
-        if(result){
 
-            res.status(200);
-            res.send('User created successfully');
+    // rethink logic for creating user, check if email already exists, if not create user with new id, if yes send error message    
+    let userLength;
+    userModel.find({ email: req.body.email })
+        .then(users => {
+            if(users.length > 0) {
+                res.status(500).send({ message: 'Email already exists' });
+            }else{
+                userModel.find()
+                .then(users => {
+                    userLength = users.length;
+                    return  userModel.create({
+                        DuelantenId: userLength + 1,
+                        username: req.body.username,
+                        email: req.body.email,
+                        password: req.body.password,
+                        DeckIds: [],
+                        SammlungId: null,
+                        FriendlistId: null})
+                })
+                .then((result) => {
+                    if(result){
+                        res.status(200);
+                        res.json({message: 'User created successfully'});
+                    }
+                })
+            }
         }
-        })
+    )
     .catch(err => {console.log(err)});
-    }
+};
 
 exports.deleteUser = (req, res,next) => {
     const userId = req.body.id;
